@@ -46,7 +46,9 @@ def write_default_config():
     config = ConfigParser()
     config["GENERAL"] = {
         "TMDB_URL_BASE": "https://api.themoviedb.org/3",
-        "TMDB_API_KEY": "7357404c261cefb23312ded89a07353e",
+        "TMDB_API_KEY": "",
+        "JELLYSEERR_URL_BASE": "",
+        "JELLYSEERR_API_KEY": "",
         "TIMEOUT": "10",
         "PROVIDER_LIST": [
             "Netflix basic with Ads",
@@ -58,6 +60,8 @@ def write_default_config():
             "Apple TV Plus",
         ],
         "CONFIG_PATH": "deniarr.config",
+        "BIND_ADDRESS": "0.0.0.0",
+        "PORT": "5000",
     }
     with open(DEFAULT_CONFIG_PATH, "w", encoding="UTF-8") as config_file:
         config.write(config_file)
