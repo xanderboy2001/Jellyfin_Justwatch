@@ -13,6 +13,11 @@ from typing import List
 import requests
 import utils
 
+TMDB_URL_BASE = utils.get_config_value("TMDB_URL_BASE")
+TMDB_API_KEY = utils.get_config_value("TMDB_API_KEY")
+TIMEOUT = int(utils.get_config_value("TIMEOUT"))
+PROVIDER_LIST = utils.get_config_value("PROVIDER_LIST")
+
 
 def find_media_files(directory: str) -> List[str]:
     """
@@ -57,9 +62,9 @@ def get_movie_name_from_tmdbid(tmdbid: str) -> str:
     Returns:
         str: The movie title.
     """
-    url = f"{utils.TMDB_URL_BASE}/movie/{tmdbid}?api_key={utils.TMDB_API_KEY}"
+    url = f"{TMDB_URL_BASE}/movie/{tmdbid}?api_key={TMDB_API_KEY}"
 
-    response = requests.get(url=url, timeout=utils.TIMEOUT)
+    response = requests.get(url=url, timeout=TIMEOUT)
 
     movie_title = response.json().get("title", "Unknown Movie")
 
@@ -76,10 +81,10 @@ def get_providers(tmdbid: str) -> List[str]:
     Returns:
         List[str]: A list of provider names for streaming the movie in the US.
     """
-    url = f"{utils.TMDB_URL_BASE}/movie/{tmdbid}/watch/providers?api_key={utils.TMDB_API_KEY}"
+    url = f"{TMDB_URL_BASE}/movie/{tmdbid}/watch/providers?api_key={TMDB_API_KEY}"
 
     try:
-        response = requests.get(url=url, timeout=utils.TIMEOUT)
+        response = requests.get(url=url, timeout=TIMEOUT)
         response.raise_for_status()  # Raise exception for HTTP errors
     except requests.RequestException as e:
         print(f"Request error: {e}")
@@ -91,7 +96,7 @@ def get_providers(tmdbid: str) -> List[str]:
     return [
         provider["provider_name"]
         for provider in streaming_providers
-        if provider["provider_name"] in utils.PROIDER_LIST
+        if provider["provider_name"] in PROVIDER_LIST
     ]
 
 
